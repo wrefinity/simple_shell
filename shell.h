@@ -113,7 +113,7 @@ typedef struct builtin
 
 
 /* hsh.c */
-int hsh(info_t *, char **);
+int loop_sh(info_t *, char **);
 int find_builtin(info_t *);
 void find_cmd(info_t *);
 void fork_cmd(info_t *);
@@ -215,7 +215,7 @@ size_t print_list(const list_t *);
 list_t *node_starts_with(list_t *, char *, char);
 ssize_t get_node_index(list_t *, list_t *);
 
-/* chain.c */
+/* chainning operations */
 int is_chain(info_t *, char *, size_t *);
 void check_chain(info_t *, char *, size_t *, size_t, size_t);
 int replace_alias(info_t *);
