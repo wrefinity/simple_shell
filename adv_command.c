@@ -42,27 +42,27 @@ int _cdir(info_t *info)
 
 	s = getcwd(buffer, 1024);
 	if (!s)
-		_puts("TODO: >>getcwd failure emsg here<<\n");
+		_puts("getcwd failure<<\n");
 	if (!info->argv[1])
 	{
-		dir = _getenv(info, "HOME=");
+		dir = _getenviron(info, "HOME=");
 		if (!dir)
 			chdir_ret =
-				chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
+				chdir((dir = _getenviron(info, "PWD=")) ? dir : "/");
 		else
 			chdir_ret = chdir(dir);
 	}
 	else if (_strcmp(info->argv[1], "-") == 0)
 	{
-		if (!_getenv(info, "OLDPWD="))
+		if (!_getenviron(info, "OLDPWD="))
 		{
 			_puts(s);
 			_putchar('\n');
 			return (1);
 		}
-		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
+		_puts(_getenviron(info, "OLDPWD=")), _putchar('\n');
 		chdir_ret =
-			chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
+			chdir((dir = _getenviron(info, "OLDPWD=")) ? dir : "/");
 	}
 	else
 		chdir_ret = chdir(info->argv[1]);
@@ -73,8 +73,8 @@ int _cdir(info_t *info)
 	}
 	else
 	{
-		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
-		_setenv(info, "PWD", getcwd(buffer, 1024));
+		_setenviron(info, "OLDPWD", _getenviron(info, "PWD="));
+		_setenviron(info, "PWD", getcwd(buffer, 1024));
 	}
 	return (0);
 }
@@ -87,11 +87,11 @@ int _cdir(info_t *info)
  */
 int _cdhelp(info_t *info)
 {
-	char **args;
+	char **a;
 
-	args = info->argv;
+	a = info->argv;
 	_puts("help: function not implemented \n");
 	if (0)
-		_puts(*args);
+		_puts(*a);
 	return (0);
 }
