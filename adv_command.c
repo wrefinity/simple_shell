@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * _shellexit - exits the shell
+ * _myexit - exits the shell
  * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  *  Return: exits with a given exit status
  *         (0) if info.argv[0] != "exit"
  */
-int _shellexit(info_t *info)
+int _myexit(info_t *info)
 {
 	int exitcheck;
 
@@ -30,39 +30,39 @@ int _shellexit(info_t *info)
 }
 
 /**
- * _cdir - changes the current directory of the process
+ * _mycd - changes the current directory of the process
  * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  *  Return: Always 0
  */
-int _cdir(info_t *info)
+int _mycd(info_t *info)
 {
 	char *s, *dir, buffer[1024];
 	int chdir_ret;
 
 	s = getcwd(buffer, 1024);
 	if (!s)
-		_puts("getcwd failure<<\n");
+		_puts("TODO: >>getcwd failure emsg here<<\n");
 	if (!info->argv[1])
 	{
-		dir = _getenviron(info, "HOME=");
+		dir = _getenv(info, "HOME=");
 		if (!dir)
-			chdir_ret =
-				chdir((dir = _getenviron(info, "PWD=")) ? dir : "/");
+			chdir_ret = /* TODO: what should this be? */
+				chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
 		else
 			chdir_ret = chdir(dir);
 	}
 	else if (_strcmp(info->argv[1], "-") == 0)
 	{
-		if (!_getenviron(info, "OLDPWD="))
+		if (!_getenv(info, "OLDPWD="))
 		{
 			_puts(s);
 			_putchar('\n');
 			return (1);
 		}
-		_puts(_getenviron(info, "OLDPWD=")), _putchar('\n');
-		chdir_ret =
-			chdir((dir = _getenviron(info, "OLDPWD=")) ? dir : "/");
+		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
+		chdir_ret = /* TODO: what should this be? */
+			chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
 	}
 	else
 		chdir_ret = chdir(info->argv[1]);
@@ -73,25 +73,25 @@ int _cdir(info_t *info)
 	}
 	else
 	{
-		_setenviron(info, "OLDPWD", _getenviron(info, "PWD="));
-		_setenviron(info, "PWD", getcwd(buffer, 1024));
+		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
+		_setenv(info, "PWD", getcwd(buffer, 1024));
 	}
 	return (0);
 }
 
 /**
- * _cdhelp - changes the current directory of the process
+ * _myhelp - changes the current directory of the process
  * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  *  Return: Always 0
  */
-int _cdhelp(info_t *info)
+int _myhelp(info_t *info)
 {
-	char **a;
+	char **arg_array;
 
-	a = info->argv;
-	_puts("help: function not implemented \n");
+	arg_array = info->argv;
+	_puts("help call works. Function not yet implemented \n");
 	if (0)
-		_puts(*a);
+		_puts(*arg_array); /* temp att_unused workaround */
 	return (0);
 }
