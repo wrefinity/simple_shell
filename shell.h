@@ -112,7 +112,7 @@ typedef struct builtin
 } builtin_table;
 
 
-/* hsh.c */
+/* shell.c */
 int loop_sh(info_t *, char **);
 int find_builtin(info_t *);
 void find_cmd(info_t *);
@@ -126,7 +126,7 @@ char *find_path(info_t *, char *, char *);
 /* loophsh.c */
 int loophsh(char **);
 
-/* err_string_fun */
+/* error_print.c */
 void _eputs(char *);
 int _eputchar(char);
 int _putfd(char c, int dsc);

@@ -9,7 +9,7 @@
  */
 int loop_sh(info_t *info, char **av)
 {
-  int b_ret = 0;
+	int b_ret = 0;
 	ssize_t r = 0;
 
 	while (r != -1 && b_ret != -2)
