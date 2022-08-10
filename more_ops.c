@@ -12,7 +12,7 @@ int _erratoi(char *s)
 	unsigned long int result = 0;
 
 	if (*s == '+')
-		s++;
+		s++;  /* TODO: why does this make main return 255? */
 	for (i = 0;  s[i] != '\0'; i++)
 	{
 		if (s[i] >= '0' && s[i] <= '9')
@@ -49,17 +49,17 @@ void print_error(info_t *info, char *estr)
 /**
  * print_d - function prints a decimal (integer) number (base 10)
  * @input: the input
- * @dsc: the filedescriptor to write to
+ * @fd: the filedescriptor to write to
  *
  * Return: number of characters printed
  */
-int print_d(int input, int dsc)
+int print_d(int input, int fd)
 {
 	int (*__putchar)(char) = _putchar;
 	int i, count = 0;
 	unsigned int _abs_, current;
 
-	if (dsc == STDERR_FILENO)
+	if (fd == STDERR_FILENO)
 		__putchar = _eputchar;
 	if (input < 0)
 	{
@@ -122,7 +122,7 @@ char *convert_number(long int num, int base, int flags)
 }
 
 /**
- * remove_comments - function removes comments
+ * remove_comments - function replaces first instance of '#' with '\0'
  * @buf: address of the string to modify
  *
  * Return: Always 0;
@@ -138,4 +138,3 @@ void remove_comments(char *buf)
 			break;
 		}
 }
-
