@@ -1,46 +1,46 @@
 #include "shell.h"
 
 /**
- * loop_sh - shell loop
- * @info: struct parameters
+ * hsh - main shell loop
+ * @info: the parameter & return info struct
  * @av: the argument vector from main()
  *
  * Return: 0 on success, 1 on error, or error code
  */
-int loop_sh(info_t *info, char **av)
+int hsh(info_t *info, char **av)
 {
-	int b_ret = 0;
 	ssize_t r = 0;
+	int builtin_ret = 0;
 
-	while (r != -1 && b_ret != -2)
+	while (r != -1 && builtin_ret != -2)
 	{
 		clear_info(info);
-		if (is_interactive(info))
+		if (interactive(info))
 			_puts("$ ");
 		_eputchar(BUF_FLUSH);
 		r = get_input(info);
 		if (r != -1)
 		{
 			set_info(info, av);
-			b_ret = find_builtin(info);
-			if (b_ret == -1)
+			builtin_ret = find_builtin(info);
+			if (builtin_ret == -1)
 				find_cmd(info);
 		}
-		else if (is_interactive(info))
+		else if (interactive(info))
 			_putchar('\n');
 		free_info(info, 0);
 	}
 	write_history(info);
 	free_info(info, 1);
-	if (!is_interactive(info) && info->status)
+	if (!interactive(info) && info->status)
 		exit(info->status);
-	if (b_ret == -2)
+	if (builtin_ret == -2)
 	{
 		if (info->err_num == -1)
 			exit(info->status);
 		exit(info->err_num);
 	}
-	return (b_ret);
+	return (builtin_ret);
 }
 
 /**
@@ -54,27 +54,27 @@ int loop_sh(info_t *info, char **av)
  */
 int find_builtin(info_t *info)
 {
-	int i, b_ret = -1;
-	builtin_table b[] = {
-		{"exit", _shellexit},
-		{"env", _environ},
-		{"help", _cdhelp},
-		{"history", _history},
-		{"setenv", _setenviron},
-		{"unsetenv", _unsetenviron},
-		{"cd", _cdir},
-		{"alias", _alias},
+	int i, built_in_ret = -1;
+	builtin_table builtintbl[] = {
+		{"exit", _myexit},
+		{"env", _myenv},
+		{"help", _myhelp},
+		{"history", _myhistory},
+		{"setenv", _mysetenv},
+		{"unsetenv", _myunsetenv},
+		{"cd", _mycd},
+		{"alias", _myalias},
 		{NULL, NULL}
 	};
 
-	for (i = 0; b[i].type; i++)
-		if (_strcmp(info->argv[0], b[i].type) == 0)
+	for (i = 0; builtintbl[i].type; i++)
+		if (_strcmp(info->argv[0], builtintbl[i].type) == 0)
 		{
 			info->line_count++;
-			b_ret = b[i].func(info);
+			built_in_ret = builtintbl[i].func(info);
 			break;
 		}
-	return (b_ret);
+	return (built_in_ret);
 }
 
 /**
@@ -100,7 +100,7 @@ void find_cmd(info_t *info)
 	if (!k)
 		return;
 
-	path = find_path(info, _getenviron(info, "PATH="), info->argv[0]);
+	path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
 	if (path)
 	{
 		info->path = path;
@@ -108,7 +108,7 @@ void find_cmd(info_t *info)
 	}
 	else
 	{
-		if ((is_interactive(info) || _getenviron(info, "PATH=")
+		if ((interactive(info) || _getenv(info, "PATH=")
 			|| info->argv[0][0] == '/') && is_cmd(info, info->argv[0]))
 			fork_cmd(info);
 		else if (*(info->arg) != '\n')
@@ -132,6 +132,7 @@ void fork_cmd(info_t *info)
 	child_pid = fork();
 	if (child_pid == -1)
 	{
+		/* TODO: PUT ERROR FUNCTION */
 		perror("Error:");
 		return;
 	}
