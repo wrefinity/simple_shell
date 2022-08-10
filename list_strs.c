@@ -1,21 +1,21 @@
 #include "shell.h"
 
 /**
- * list_len - get linked list length
+ * list_len - determines length of linked list
  * @h: pointer to first node
  *
  * Return: size of list
  */
 size_t list_len(const list_t *h)
 {
-	size_t x = 0;
+	size_t i = 0;
 
 	while (h)
 	{
 		h = h->next;
-		x++;
+		i++;
 	}
-	return (x);
+	return (i);
 }
 
 /**
@@ -88,12 +88,12 @@ size_t print_list(const list_t *h)
  */
 list_t *node_starts_with(list_t *node, char *prefix, char c)
 {
-	char *ptr = NULL;
+	char *p = NULL;
 
 	while (node)
 	{
-		ptr = starts_with(node->str, prefix);
-		if (ptr && ((c == -1) || (*ptr == c)))
+		p = starts_with(node->str, prefix);
+		if (p && ((c == -1) || (*p == c)))
 			return (node);
 		node = node->next;
 	}
