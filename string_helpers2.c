@@ -21,7 +21,7 @@ char *_strdup(const char *str)
 	for (len++; len--;)
 		ptr[len] = *--str;
 	return (ptr);
-}/*Done*/
+} /*Done*/
 
 /**
  * _strcpy - copies a string
@@ -88,7 +88,7 @@ char *_strncpy(char *dest, char *src, int n)
 		}
 	}
 	return (str);
-}/* Done */
+} /* Done */
 /**
  **_strncat - concatenates two strings
  *@dest: destination string
@@ -114,4 +114,4 @@ char *_strncat(char *dest, char *src, int n)
 	if (j < n)
 		dest[i] = '\0';
 	return (str);
-}/* Done */
+} /* Done */
