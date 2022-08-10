@@ -32,24 +32,24 @@ char *get_history_file(info_t *info)
  */
 int write_history(info_t *info)
 {
-	ssize_t f_data;
-	char *f_data = get_history_file(info);
+	ssize_t fd;
+	char *file = get_history_file(info);
 	list_t *node = NULL;
 
-	if (!f_data)
+	if (!file)
 		return (-1);
 
-	f_data = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
-	free(filename);
-	if (f_data == -1)
+	fd = open(file, O_CREAT | O_TRUNC | O_RDWR, 0644);
+	free(file);
+	if (fd == -1)
 		return (-1);
 	for (node = info->history; node; node = node->next)
 	{
-		_putsdsc(node->str, f_data);
-		_putfd('\n', f_data);
+		_putsdsc(node->str, fd);
+		_putfd('\n', fd);
 	}
-	_putfd(BUF_FLUSH, f_data);
-	close(f_data);
+	_putfd(BUF_FLUSH, fd);
+	close(fd);
 	return (1);
 }
 
@@ -62,29 +62,29 @@ int write_history(info_t *info)
 int read_history(info_t *info)
 {
 	int i, last = 0, linecount = 0;
-	ssize_t f_data, rdlen, fsize = 0;
+	ssize_t fd, rdlen, fsize = 0;
 	struct stat st;
-	char *buf = NULL, *filename = get_history_file(info);
+	char *buf = NULL, *file = get_history_file(info);
 
-	if (!filename)
+	if (!file)
 		return (0);
 
-	f_data = open(filename, O_RDONLY);
-	free(filename);
-	if (f_data == -1)
+	fd = open(file, O_RDONLY);
+	free(file);
+	if (fd == -1)
 		return (0);
-	if (!fstat(f_data, &st))
+	if (!fstat(fd, &st))
 		fsize = st.st_size;
 	if (fsize < 2)
 		return (0);
 	buf = malloc(sizeof(char) * (fsize + 1));
 	if (!buf)
 		return (0);
-	rdlen = read(f_data, buf, fsize);
+	rdlen = read(fd, buf, fsize);
 	buf[fsize] = 0;
 	if (rdlen <= 0)
 		return (free(buf), 0);
-	close(f_data);
+	close(fd);
 	for (i = 0; i < fsize; i++)
 		if (buf[i] == '\n')
 		{
@@ -125,19 +125,19 @@ int build_history_list(info_t *info, char *buf, int linecount)
 
 /**
  * renumber_history - renumbers the history linked list after changes
- * @info: Structure containing potential arguments. Used to maintain
+ * @info: struct parameters
  *
  * Return: the new histcount
  */
 int renumber_history(info_t *info)
 {
 	list_t *node = info->history;
-	int i = 0;
+	int x = 0;
 
 	while (node)
 	{
-		node->num = i++;
+		node->num = x++;
 		node = node->next;
 	}
-	return (info->histcount = i);
+	return (info->histcount = x);
 }
