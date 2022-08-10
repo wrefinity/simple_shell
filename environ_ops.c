@@ -1,8 +1,9 @@
 #include "shell.h"
 
 /**
- * get_environ - returns an array of environ var
- * @info: Structure of arguments.
+ * get_environ - returns the string array copy of our environ
+ * @info: Structure containing potential arguments. Used to maintain
+ *          constant function prototype.
  * Return: Always 0
  */
 char **get_environ(info_t *info)
@@ -18,7 +19,8 @@ char **get_environ(info_t *info)
 
 /**
  * _unsetenv - Remove an environment variable
- * @info: Structure of arguments.
+ * @info: Structure containing potential arguments. Used to maintain
+ *        constant function prototype.
  *  Return: 1 on delete, 0 otherwise
  * @var: the string env var property
  */
@@ -50,26 +52,27 @@ int _unsetenv(info_t *info, char *var)
 /**
  * _setenv - Initialize a new environment variable,
  *             or modify an existing one
- * @info: Structure of arguments.
- * @var: the enviroment variable property
- * @val: the enviroment variable value
+ * @info: Structure containing potential arguments. Used to maintain
+ *        constant function prototype.
+ * @var: the string env var property
+ * @value: the string env var value
  *  Return: Always 0
  */
-int _setenv(info_t *info, char *var, char *val)
+int _setenv(info_t *info, char *var, char *value)
 {
 	char *buf = NULL;
 	list_t *node;
 	char *p;
 
-	if (!var || !val)
+	if (!var || !value)
 		return (0);
 
-	buf = malloc(_strlen(var) + _strlen(val) + 2);
+	buf = malloc(_strlen(var) + _strlen(value) + 2);
 	if (!buf)
 		return (1);
 	_strcpy(buf, var);
 	_strcat(buf, "=");
-	_strcat(buf, val);
+	_strcat(buf, value);
 	node = info->env;
 	while (node)
 	{
