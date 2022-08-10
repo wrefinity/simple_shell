@@ -161,7 +161,6 @@ int is_delim(char, char *);
 int _isalpha(int);
 int _atoi(char *);
 
-/* more_functions2.c */
 int _erratoi(char *);
 void print_error(info_t *, char *);
 int print_d(int, int);
@@ -185,11 +184,11 @@ void clear_info(info_t *);
 void set_info(info_t *, char **);
 void free_info(info_t *, int);
 
-/* env.c module */
-char *_getenv(info_t *, const char *);
-int _myenv(info_t *);
-int _mysetenv(info_t *);
-int _myunsetenv(info_t *);
+/* function for the enviroment  */
+int _env(info_t *);
+int _setenviron(info_t *);
+int _unsetenviron(info_t *);
+char *_getenviron(info_t *, const char *);
 int populate_env_list(info_t *);
 
 /* env2.c module */
