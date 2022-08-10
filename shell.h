@@ -130,7 +130,7 @@ int loophsh(char **);
 void _eputs(char *);
 int _eputchar(char);
 int _putfd(char c, int dsc);
-int _putsdsc(char *str, int dsc)
+int _putsdsc(char *str, int dsc);
 
 /* string helper functions */
 int _strlen(char *);
