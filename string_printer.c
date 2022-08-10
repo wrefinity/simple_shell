@@ -1,43 +1,74 @@
 #include "shell.h"
 
 /**
- * _putchar - writes the character c to stdout
- * @c: The character to print
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ **_strncpy - copies a string
+ *@dest: the destination string to be copied to
+ *@src: the source string
+ *@n: the amount of characters to be copied
+ *Return: the concatenated string
  */
-int _putchar(char c)
+char *_strncpy(char *dest, char *src, int n)
 {
-	static int i;
-	static char buf[WRITE_BUF_SIZE];
+	int i, j;
+	char *s = dest;
 
-	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	i = 0;
+	while (src[i] != '\0' && i < n - 1)
 	{
-		write(1, buf, i);
-		i = 0;
+		dest[i] = src[i];
+		i++;
 	}
-	if (c != BUF_FLUSH)
-		buf[i++] = c;
-	return (1);
+	if (i < n)
+	{
+		j = i;
+		while (j < n)
+		{
+			dest[j] = '\0';
+			j++;
+		}
+	}
+	return (s);
 }
 
 /**
- *_puts - prints an input string
- *@str: the string to be printed
- *
- * Return: Nothing
+ **_strncat - concatenates two strings
+ *@dest: the first string
+ *@src: the second string
+ *@n: the amount of bytes to be maximally used
+ *Return: the concatenated string
  */
-void _puts(char *str)
+char *_strncat(char *dest, char *src, int n)
 {
-	int i = 0;
+	int i, j;
+	char *s = dest;
 
-	if (!str)
-		return;
-	while (str[i] != '\0')
-	{
-		_putchar(str[i]);
+	i = 0;
+	j = 0;
+	while (dest[i] != '\0')
 		i++;
+	while (src[j] != '\0' && j < n)
+	{
+		dest[i] = src[j];
+		i++;
+		j++;
 	}
+	if (j < n)
+		dest[i] = '\0';
+	return (s);
 }
 
+/**
+ **_strchr - locates a character in a string
+ *@s: the string to be parsed
+ *@c: the character to look for
+ *Return: (s) a pointer to the memory area s
+ */
+char *_strchr(char *s, char c)
+{
+	do {
+		if (*s == c)
+			return (s);
+	} while (*s++ != '\0');
+
+	return (NULL);
+}
