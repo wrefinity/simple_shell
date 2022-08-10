@@ -131,7 +131,7 @@ int _eputchar(char);
 int _putfd(char c, int dsc);
 int _putsdsc(char *str, int dsc)
 
-/* string helper functions*/
+/* string helper functions */
 int _strlen(char *);
 int _strcmp(char *, char *);
 char *starts_with(const char *, const char *);
