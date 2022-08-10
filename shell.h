@@ -167,7 +167,7 @@ int print_d(int, int);
 char *convert_number(long int, int, int);
 void remove_comments(char *);
 
-/* builtin_emulators.c */
+/* advance function */
 int _shellexit(info_t *);
 int _cdir(info_t *);
 int _cdhelp(info_t *);
