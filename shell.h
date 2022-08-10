@@ -185,13 +185,11 @@ void set_info(info_t *, char **);
 void free_info(info_t *, int);
 
 /* function for the enviroment  */
-int _env(info_t *);
+int _environ(info_t *);
 int _setenviron(info_t *);
 int _unsetenviron(info_t *);
 char *_getenviron(info_t *, const char *);
 int populate_env_list(info_t *);
-
-/* env2.c module */
 char **get_environ(info_t *);
 int _unsetenv(info_t *, char *);
 int _setenv(info_t *, char *, char *);
