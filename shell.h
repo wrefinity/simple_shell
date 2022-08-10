@@ -168,13 +168,11 @@ char *convert_number(long int, int, int);
 void remove_comments(char *);
 
 /* builtin_emulators.c */
-int _myexit(info_t *);
-int _mycd(info_t *);
-int _myhelp(info_t *);
-
-/* builtin_emulators2.c */
-int _myhistory(info_t *);
-int _myalias(info_t *);
+int _shellexit(info_t *);
+int _cdir(info_t *);
+int _cdhelp(info_t *);
+int _history(info_t *);
+int _alias(info_t *);
 
 /* getline.c module */
 ssize_t get_input(info_t *);
