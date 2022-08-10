@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * get_history_file - gets the history file
+ * get_history_file - get file history
  * @info: parameter struct
  *
  * Return: allocated string containg history file
@@ -11,7 +11,7 @@ char *get_history_file(info_t *info)
 {
 	char *buf, *dir;
 
-	dir = _getenviron(info, "HOME=");
+	dir = _getenv(info, "HOME=");
 	if (!dir)
 		return (NULL);
 	buf = malloc(sizeof(char) * (_strlen(dir) + _strlen(HIST_FILE) + 2));
@@ -33,19 +33,19 @@ char *get_history_file(info_t *info)
 int write_history(info_t *info)
 {
 	ssize_t fd;
-	char *file = get_history_file(info);
+	char *filename = get_history_file(info);
 	list_t *node = NULL;
 
-	if (!file)
+	if (!filename)
 		return (-1);
 
-	fd = open(file, O_CREAT | O_TRUNC | O_RDWR, 0644);
-	free(file);
+	fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
+	free(filename);
 	if (fd == -1)
 		return (-1);
 	for (node = info->history; node; node = node->next)
 	{
-		_putsdsc(node->str, fd);
+		_putsfd(node->str, fd);
 		_putfd('\n', fd);
 	}
 	_putfd(BUF_FLUSH, fd);
@@ -64,13 +64,13 @@ int read_history(info_t *info)
 	int i, last = 0, linecount = 0;
 	ssize_t fd, rdlen, fsize = 0;
 	struct stat st;
-	char *buf = NULL, *file = get_history_file(info);
+	char *buf = NULL, *filename = get_history_file(info);
 
-	if (!file)
+	if (!filename)
 		return (0);
 
-	fd = open(file, O_RDONLY);
-	free(file);
+	fd = open(filename, O_RDONLY);
+	free(filename);
 	if (fd == -1)
 		return (0);
 	if (!fstat(fd, &st))
@@ -104,7 +104,7 @@ int read_history(info_t *info)
 
 /**
  * build_history_list - adds entry to a history linked list
- * @info: Structure containing potential arguments.
+ * @info: Structure containing potential arguments. Used to maintain
  * @buf: buffer
  * @linecount: the history linecount, histcount
  *
@@ -125,19 +125,19 @@ int build_history_list(info_t *info, char *buf, int linecount)
 
 /**
  * renumber_history - renumbers the history linked list after changes
- * @info: struct parameters
+ * @info: Structure containing potential arguments. Used to maintain
  *
  * Return: the new histcount
  */
 int renumber_history(info_t *info)
 {
 	list_t *node = info->history;
-	int x = 0;
+	int i = 0;
 
 	while (node)
 	{
-		node->num = x++;
+		node->num = i++;
 		node = node->next;
 	}
-	return (info->histcount = x);
+	return (info->histcount = i);
 }
