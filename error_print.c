@@ -65,7 +65,7 @@ int _putfd(char c, int dsc)
 }
 
 /**
- * _putsdsc - prints string
+ * _putsdsc - prints an input string
  * @str: the string to be printed
  * @dsc: the file description
  *
