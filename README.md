@@ -2,7 +2,7 @@
 0x16. C - Simple Shell
 
 ### ALX - HOLBERTON Projects Collaboration on the Simple Shell Project.
-Authored by: 
+Authors: 
 1. Andrew Ishaku Wreford (wrefordmessi@gmail.com)
 2. Thomas Endalemaw
 
